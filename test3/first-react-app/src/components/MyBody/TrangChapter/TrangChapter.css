@@ -1,0 +1,21 @@
+.chapter-item {
+    height: 60vh;
+}
+
+.chapter-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 800px) {
+    .chapter-item {
+        height: 40vh;
+    }
+}
+@media screen and (max-width: 400px) {
+    .chapter-item {
+        height: 20vh;
+    }
+}
