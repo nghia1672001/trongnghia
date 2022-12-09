@@ -80,10 +80,10 @@ function Home({ toHome }) {
                                 return <div key={bookitem} className='carousel-item-container'>
                                     <img src={book.BookImage} alt="" />
                                     <div className='carousel-item-text'>
-                                        <Link state={book} onClick={() => tangluot(book._id)} to={{
+                                        <Link state={book} style={{textDecoration:"none", color:"aliceblue"}}onClick={() => tangluot(book._id)} to={{
                                             pathname: `/trangchapter/${book._id}`
-                                        }} className='book-item-title'>{book.TenSach}</Link>
-                                        <Link onClick={() => tangluot(book._id)} to={{
+                                        }} className='carousel-item-title'>{book.TenSach}</Link>
+                                        <Link className='carousel-item-chapter' style={{textDecoration:"none", color:"aliceblue"}} onClick={() => tangluot(book._id)} to={{
                                             pathname: `/trangdocsach/${book._id}/${book.Chapter[book.Chapter.length - 1]._id}`
                                         }}>{book.Chapter[book.Chapter.length - 1].ChapterTitle}</Link>
                                     </div>
