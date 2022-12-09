@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
@@ -19,21 +19,24 @@ import CommentBlock from '../../functionality/CommentBlock/CommentBlock';
 import axios from 'axios';
 
 function TrangChapter() {
+    const [loadingstate, setLoadingState] = useState("Loading data.... Please reload if it takes too long to response");
     const location = useLocation();
     console.log(location);
 
     useEffect(() => {
         if (!location.state) {
-            const currentbookid = localStorage.getItem("currentbook");
+            var temp = location.pathname;
+            temp = temp.split("/");
 
             axios
-                .put(`http://localhost:4000/add/singlebook/${currentbookid}`)
+                .put(`http://localhost:4000/add/singlebook/${temp[2]}`)
                 .then(res => {
                     location.state = res.data;
+                    setLoadingState("OK!");
                 })
                 .catch(err => console.log(err));
         }
-    }, [location]);
+    }, [!location.state]);
 
     return (
         <Container>
@@ -107,7 +110,7 @@ function TrangChapter() {
 
                         </Col>
                     </Row> :
-                    <p>Loading data.... Please reload if it takes too long to response</p>
+                    <p>{loadingstate}</p>
             }
         </Container>
     )

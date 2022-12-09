@@ -1,12 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ButtonComment(bookid) {
     const [noidung, setNoidung] = useState("");
     const checkIfLoggedUser = localStorage.getItem('user');
 
     const navigate = useNavigate();
+    
+    const location = useLocation();
 
     function AddComment() {
         if (noidung === "") {
@@ -22,9 +25,9 @@ function ButtonComment(bookid) {
                 .then(() => {
                     alert("Comment thành công");
                     window.location.reload();
-                    const currentbookid = localStorage.getItem("currentbook");
-                    navigate(`/trangchapter/${currentbookid.slice(0, 7)}`);
-                    window.location.reload();
+                    var temp = location.pathname;
+                    temp = temp.split("/");
+                    navigate(`/trangchapter/${temp[2]}`);
                 })
                 .catch(err => {
                     alert(err);

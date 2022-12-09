@@ -15,8 +15,6 @@ function Home({ toHome }) {
     async function tangluot(id){
         await axios
             .put(`http://localhost:4000/luotxem/update/${id}`);
-
-        localStorage.setItem("currentbook", id);
     }
     return (
         <Container style={{ margin: "20px 0px" }} fluid>
@@ -30,7 +28,7 @@ function Home({ toHome }) {
                                 <Delete bookid={truyen._id} />
                                 <img alt="hinhtruyen" src={truyen.BookImage} />
                                 <Link state={truyen} onClick={() => tangluot(truyen._id)} to={{
-                                    pathname: `/trangchapter/${truyen._id.slice(0, 7)}`
+                                    pathname: `/trangchapter/${truyen._id}`
                                 }} className='book-item-title'>{truyen.TenSach}</Link>
                                 <div>
                                     <p>Lượt xem: {truyen.LuotXem}</p>

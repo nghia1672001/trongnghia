@@ -5,7 +5,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
 import React, { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function UpdateChapter(chap) {
     const [chapter, setChapter] = useState("");
@@ -13,6 +13,8 @@ function UpdateChapter(chap) {
     const [updatestate, setUpdateState] = useState(true);
 
     const navigate = useNavigate();
+
+    const location = useLocation();
 
     function UpdateChap() {
         if (chapter === "") {
@@ -28,9 +30,10 @@ function UpdateChapter(chap) {
                 .put(`http://localhost:4000/add/updatechapter/${chap.chap.bookid}/${chap.chap.chapterid}`, Chapter)
                 .then(() => {
                     alert("cập nhật thành công");
-                    const currentbookid = localStorage.getItem("currentbook");
-                    navigate(`/trangchapter/${currentbookid.slice(0, 7)}`);
                     window.location.reload();
+                    var temp = location.pathname;
+                    temp = temp.split("/");
+                    navigate(`/trangchapter/${temp[2]}`);
                 })
                 .catch(err => {
                     alert(err);

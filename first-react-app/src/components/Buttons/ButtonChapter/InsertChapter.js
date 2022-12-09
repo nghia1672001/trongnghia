@@ -3,15 +3,18 @@ import React, { useState } from 'react'
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 import axios from 'axios';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function InsertChapter(bookid) {
     const [chapter, setChapter] = useState("");
     const [chaptercontent, setChapterContent] = useState("");
 
     const navigate = useNavigate();
+
+    const location = useLocation();
 
     function onAddChapterPress() {
         document.getElementById("chapteraddbtn").style.display = "none";
@@ -42,9 +45,10 @@ function InsertChapter(bookid) {
                 .post(`http://localhost:4000/add/addchapter/${bookid.bookid}`, Chapter)
                 .then(() => {
                     alert("thêm thành công");
-                    const currentbookid = localStorage.getItem("currentbook");
-                    navigate(`/trangchapter/${currentbookid.slice(0, 7)}`);
                     window.location.reload();
+                    var temp = location.pathname;
+                    temp = temp.split("/");
+                    navigate(`/trangchapter/${temp[2]}`);
                 })
                 .catch(err => {
                     alert(err);
