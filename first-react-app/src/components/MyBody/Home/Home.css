@@ -1,5 +1,5 @@
 .book-item {
-    background-color:whitesmoke;
+    background-color: whitesmoke;
     height: 75vh;
     margin: 15px 5px;
     border-radius: 10px;
@@ -21,7 +21,7 @@
 }
 
 .book-item a {
-    margin:4px 0px;
+    margin: 4px 0px;
     text-decoration: none;
     color: black;
     display: block;
@@ -42,6 +42,31 @@
     width: 100%;
     height: 55%;
     margin-top: 5px;
+}
+
+/* carousel part */
+.carousel-item-container {
+    position: relative;
+    width: 80%;
+    height: 50vh;
+    background-color: violet;
+}
+
+.carousel-item-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-item-text {
+    line-height: 5px;
+    padding: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    color: aliceblue;
+    background-color: black;
 }
 
 @media screen and (max-width: 800px) {

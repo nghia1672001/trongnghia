@@ -13,6 +13,18 @@ router.put("/singlebook/:id", async (req, res) => {
         .then(sach => res.json(sach))
         .catch(err => res.status(400).json(`Error: ${err}`))
 })
+router.put("/singlechapter/:id/:_id", async (req, res) => {
+    await Sach.findOne({ "_id": mongoose.Types.ObjectId(req.params.id), "Chapter._id": mongoose.Types.ObjectId(req.params._id) })
+        .then(sach => {
+            sach.Chapter.filter(chapter =>{
+                if(chapter._id.equals(mongoose.Types.ObjectId(req.params._id))){
+                    return true;
+                }
+                else return false;
+            }).map(chapter => res.json(chapter))
+        })
+        .catch(err => res.status(400).json(`Error: ${err}`))
+})
 router.put("/updatebook/:id", async (req, res) => {
     await Sach.findById(req.params.id)
         .then(sach => {

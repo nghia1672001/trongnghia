@@ -6,7 +6,7 @@ const Sach = require('../models/Sach');
 router.put("/update/:id", (req, res) => {
     Sach.findById(req.params.id)
         .then(sach => {
-            sach.LuotXem = (parseInt(sach.LuotXem)+1).toString();
+            sach.LuotXem = sach.LuotXem+1;
 
             sach
                 .save()

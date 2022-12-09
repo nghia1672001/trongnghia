@@ -24,19 +24,19 @@ function TrangChapter() {
     console.log(location);
 
     useEffect(() => {
-        if (!location.state) {
-            var temp = location.pathname;
-            temp = temp.split("/");
 
-            axios
-                .put(`http://localhost:4000/add/singlebook/${temp[2]}`)
-                .then(res => {
-                    location.state = res.data;
-                    setLoadingState("OK!");
-                })
-                .catch(err => console.log(err));
-        }
-    }, [!location.state]);
+        var temp = location.pathname;
+        temp = temp.split("/");
+
+        axios
+            .put(`http://localhost:4000/add/singlebook/${temp[2]}`)
+            .then(res => {
+                location.state = res.data;
+                setLoadingState("OK!");
+            })
+            .catch(err => console.log(err));
+
+    }, [location]);
 
     return (
         <Container>
@@ -88,7 +88,7 @@ function TrangChapter() {
                                 {location.state.Chapter.length > 0 ? location.state.Chapter.map((chapter, key1) => {
                                     return <div style={{ margin: "5px" }} key={key1}>
                                         <Link to={{
-                                            pathname: `/trangdocsach/${chapter._id.slice(0, 7)}`
+                                            pathname: `/trangdocsach/${location.state._id}/${chapter._id}`
                                         }} state={chapter} style={{ display: "inline", margin: "5px" }}>{chapter.ChapterTitle}</Link>
                                         <DeleteChapter style={{ display: "inline" }} page={{ bookid: location.state._id, chapterid: chapter._id }} />
                                         <UpdateChapter style={{ display: "inline" }} chap={{ bookid: location.state._id, chapterid: chapter._id }} />
@@ -99,7 +99,7 @@ function TrangChapter() {
                                 <ButtonComment bookid={location.state._id} />
                             </Row>
                             <Row>
-                                {location.state.BinhLuan.length > 0 ? location.state.BinhLuan.map((binhluan, key2) => {
+                                {location.state.BinhLuan.length > 0 ? location.state.BinhLuan.reverse().map((binhluan, key2) => {
                                     return <div key={key2}>
                                         <CommentBlock binhluanstate={{ binhluanid: binhluan._id, noidung: binhluan.NoiDung }} />
                                     </div>

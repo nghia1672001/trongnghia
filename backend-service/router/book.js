@@ -10,4 +10,10 @@ router.get("/alls", (req, res) => {
 });
 
 
+router.get("/alldecreaseview", (req, res) => {
+    Sach.find({}).sort({LuotXem: "desc"})
+        .then(sach => res.json(sach))
+        .catch(err => res.status(400).json(`Error: ${err}`))
+});
+
 module.exports = router;

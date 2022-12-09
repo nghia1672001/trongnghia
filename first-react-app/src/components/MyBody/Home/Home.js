@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
@@ -10,14 +10,85 @@ import './Home.css';
 import Insert from '../../Buttons/ButtonsBook/Insert';
 import Update from '../../Buttons/ButtonsBook/Update';
 import Delete from '../../Buttons/ButtonsBook/Delete';
+import { useState } from 'react';
+import CommentBlock from '../../functionality/CommentBlock/CommentBlock';
+
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 function Home({ toHome }) {
-    async function tangluot(id){
+    const [commentlist, setCommentList] = useState([]);
+    const [commentstatus, setCommentStatus] = useState(false);
+
+    const [carouselbooklist, setCarouselBookList] = useState([]);
+    const [carouseltatus, setCarouselStatus] = useState(false);
+    async function tangluot(id) {
         await axios
             .put(`http://localhost:4000/luotxem/update/${id}`);
     }
+    console.log(toHome);
+
+    useEffect(() => {
+        axios.get(`http://localhost:4000/comment/alls`)
+            .then(res => {
+                setCommentList(res.data);
+                setCommentStatus(true);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        axios.get(`http://localhost:4000/books/alldecreaseview`)
+            .then(res => {
+                setCarouselBookList(res.data);
+                setCarouselStatus(true);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, [])
+
     return (
-        <Container style={{ margin: "20px 0px" }} fluid>
+        <Container style={{ margin: "20px auto" }}>
+            <Row>
+                <Carousel
+                    swipeable
+                    responsive={
+                        {
+                            superLargeDesktop: {
+                                // the naming can be any, depends on you.
+                                breakpoint: { max: 4000, min: 3000 },
+                                items: 5
+                            },
+                            desktop: {
+                                breakpoint: { max: 3000, min: 1024 },
+                                items: 4
+                            },
+                            tablet: {
+                                breakpoint: { max: 1024, min: 464 },
+                                items: 3
+                            },
+                            mobile: {
+                                breakpoint: { max: 464, min: 0 },
+                                items: 2
+                            }
+                        }
+                    }>
+                    {
+                        carouseltatus ?
+                            carouselbooklist.map((book, bookitem) => {
+                                return <div key={bookitem} className='carousel-item-container'>
+                                    <img src={book.BookImage} alt="" />
+                                    <div className='carousel-item-text'>
+                                        <h4>{book.TenSach}</h4>
+                                        <p>{book.Chapter[0]}</p>
+                                    </div>
+                                </div>
+                            }) :
+                            <p>Loading item</p>
+                    }
+                </Carousel>
+            </Row>
             <Insert />
             <Row>
                 <Col lg={9}>
@@ -34,11 +105,11 @@ function Home({ toHome }) {
                                     <p>Lượt xem: {truyen.LuotXem}</p>
                                 </div>
                                 {
-                                    truyen.ChapTer ? truyen.ChapTer.reverse().map((chapter, key1) => {
+                                    truyen.Chapter ? truyen.Chapter.reverse().map((chapter, key1) => {
                                         if (key1 < 3) {
                                             return <Link onClick={() => tangluot(truyen._id)} to={{
-                                                pathname: `/trangdocsach/${chapter.ChapterTitle}`
-                                            }} key={key1}>{chapter}</Link>
+                                                pathname: `/trangdocsach/${truyen._id}/${chapter._id}`
+                                            }} key={key1}>{chapter.ChapterTitle}</Link>
                                         }
                                         else {
                                             return <p key={key1}></p>
@@ -50,7 +121,15 @@ function Home({ toHome }) {
                     </Row>
                 </Col>
                 <Col lg={3}>
-                    a
+                    {
+                        commentstatus ?
+                            commentlist.reverse().map((comment, key2) => {
+                                return <div key={key2}>
+                                    <CommentBlock binhluanstate={{ binhluanid: comment._id, noidung: comment.NoiDung }} />
+                                </div>
+                            }) :
+                            <p>Comment is loading....</p>
+                    }
                 </Col>
             </Row>
         </Container>

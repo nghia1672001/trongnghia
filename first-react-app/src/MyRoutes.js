@@ -26,7 +26,7 @@ function MyRoutes({toRoute}) {
       <Route path='/trangthemsach' element={<TrangThemSach />} />
       <Route path='/trangupdate' element={<TrangUpdate />} />
       <Route path='/trangchapter/:tentruyen' element={<TrangChapter />} />
-      <Route path='/trangdocsach/:tenchapter' element={<TrangDocSach />} />
+      <Route path='/trangdocsach/:tentruyen/:tenchapter' element={<TrangDocSach />} />
     </Routes>
   )
 }
