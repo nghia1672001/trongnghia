@@ -32,6 +32,7 @@ router.put("/updatebook/:id", async (req, res) => {
                 sach.SoLuong = req.body.SoLuong,
                 sach.MoTa = req.body.MoTa,
                 sach.NamSangTac = req.body.NamSangTac,
+                sach.ViTri = req.body.ViTri,
                 sach.BookImage = req.body.BookImage,
 
                 sach
@@ -48,6 +49,7 @@ router.put("/updatepdf/:id", async (req, res) => {
                 sach.NoiDung = req.body.NoiDung,
                 sach.SoLuong = req.body.SoLuong,
                 sach.MoTa = req.body.MoTa,
+                sach.ViTri = req.body.ViTri,
                 sach.NamSangTac = req.body.NamSangTac,
 
                 sach
@@ -73,6 +75,7 @@ router.post("/book", async (req, res) => {
                     MoTa: req.body.MoTa,
                     BookImage: req.body.BookImage,
                     NamSangTac: req.body.NamSangTac,
+                    ViTri: req.body.ViTri,
                     LuotXem: "0",
                 });
 

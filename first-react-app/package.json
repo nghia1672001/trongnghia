@@ -20,6 +20,7 @@
     "react-responsive": "^9.0.0",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
+    "rsuite": "^5.23.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

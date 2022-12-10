@@ -12,12 +12,14 @@ function InsertBook() {
     const [SoLuong, setSoLuong] = useState('');
     const [MoTa, setMoTa] = useState('');
     const [NamSangTac, setNamSangTac] = useState('');
+    const [ViTri, setViTri] = useState("");
     const [file, setFile] = useState("");
     const [file1, setFile1] = useState("");
     const unamebook = useRef();
     const uslot = useRef();
     const udecrip = useRef();
     const uyear = useRef();
+    const ulocation = useRef();
     const navigate = useNavigate();
 
     const Nhapvao = async (e) => {
@@ -30,6 +32,10 @@ function InsertBook() {
         else if (SoLuong === '') {
             alert("Vui long nhap so luong sach");
             uslot.current.focus();
+        }
+        else if (ViTri === '') {
+            alert("Vui long nhap so luong sach");
+            ulocation.current.focus();
         }
         else if (!file) {
             alert("Please choose a file first!")
@@ -74,6 +80,7 @@ function InsertBook() {
                             SoLuong: SoLuong,
                             MoTa: MoTa,
                             NamSangTac: NamSangTac,
+                            ViTri: ViTri,
                             BookImage: url,
                         };
                         console.log(book);
@@ -113,6 +120,7 @@ function InsertBook() {
                                                 SoLuong: SoLuong,
                                                 MoTa: MoTa,
                                                 NamSangTac: NamSangTac,
+                                                ViTri: ViTri,
                                                 NoiDung: url1,
                                             };
                                             axios
@@ -145,6 +153,10 @@ function InsertBook() {
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Nội dung</Form.Label>
                 <Form.Control onChange={e => setFile1(e.target.files[0])} type='file' placeholder="Vui lòng chọn tài lieu" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Vị trí</Form.Label>
+                <Form.Control onChange={e => setViTri(e.target.value)} ref={ulocation} type='text' placeholder="Vui lòng điền vị trí sách" />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Ảnh bìa</Form.Label>

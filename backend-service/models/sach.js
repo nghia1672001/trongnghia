@@ -9,6 +9,7 @@ const sachSchema = new Schema({
     MoTa: { type: String, required: true },
     BookImage: { type: String},
     NoiDung: {type: String},
+    ViTri: {type: String},
     TenSach: { type: String, required: true },
     NamSangTac: { type: String, required: true },
     TacGia: [],

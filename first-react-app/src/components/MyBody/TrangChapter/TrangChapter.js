@@ -73,12 +73,40 @@ function TrangChapter() {
                                         <InsertAuthor bookid={location.state._id} />
                                     </div>
                                     <div>
-                                        <p>Lượt xem: {location.state.LuotXem}</p>
+                                        <p> Lượt xem: {location.state.LuotXem}</p>
+                                    </div>
+                                    <div>
+                                        <p> Vị trí: {location.state.ViTri}</p>
+                                    </div>
+                                    <div>
+                                        {location.state.Chapter.length > 0 ?
+                                            <Link style={{ marginRight: "9px" }}
+                                                to={{
+                                                    pathname: `/trangdocsach/${location.state._id}/${location.state.Chapter[0]._id}`
+                                                }}> <button
+                                                    style={{ fontWeight: "bold", height: "70px", width: "100px", borderRadius: "10px", backgroundColor: "darkturquoise" }} type="button">
+                                                    Đọc từ đầu
+                                                </button>
+                                            </Link>
+                                            :
+                                            <Link to={{
+                                                pathname: `/trangchapter/${location.state._id}`
+                                            }}>
+                                            </Link>
+                                        }
+                                        <Link>
+                                            <button
+                                                style={{ fontWeight: "bold", height: "70px", width: "100px", borderRadius: "10px", backgroundColor: "cyan" }} type="button">
+                                                Mượn sách
+                                            </button>
+                                        </Link>
                                     </div>
                                 </Col>
                             </Row>
-                            <Row className="justify-content-center">
-                                noidung
+                            <Row>
+                                <div>
+                                    <p>Nội dung: {location.state.MoTa}</p>
+                                </div>
                             </Row>
                             <Row >
                                 Danh sách chương:
@@ -87,9 +115,10 @@ function TrangChapter() {
                                 <InsertChapter bookid={location.state._id} />
                                 {location.state.Chapter.length > 0 ? location.state.Chapter.map((chapter, key1) => {
                                     return <div style={{ margin: "5px" }} key={key1}>
-                                        <Link to={{
+                                        <Link
+                                        to={{
                                             pathname: `/trangdocsach/${location.state._id}/${chapter._id}`
-                                        }} state={chapter} style={{ display: "inline", margin: "5px" }}>{chapter.ChapterTitle}</Link>
+                                        }} state={chapter} style={{ display: "inline", margin: "5px", textDecoration:"none", color:"black" }}>{chapter.ChapterTitle}</Link>
                                         <DeleteChapter style={{ display: "inline" }} page={{ bookid: location.state._id, chapterid: chapter._id }} />
                                         <UpdateChapter style={{ display: "inline" }} chap={{ bookid: location.state._id, chapterid: chapter._id }} />
                                     </div>
