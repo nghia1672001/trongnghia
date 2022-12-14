@@ -6,6 +6,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useLocation } from 'react-router-dom';
 
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import PersonIcon from '@mui/icons-material/Person';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import PlaceIcon from '@mui/icons-material/Place';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+
 import './TrangChapter.css'
 import InsertAuthor from '../../Buttons/ButtonAuthor/InsertAuthor';
 import DeleteAuthor from '../../Buttons/ButtonAuthor/DeleteAuthor';
@@ -53,38 +60,51 @@ function TrangChapter() {
                                 </Col>
                                 <Col xs={8}>
                                     <div>
-                                        <div style={{ display: "block" }}> Tác giả: {location.state.TacGia.length > 0 ? location.state.TacGia.map((tacgia, key) => {
-                                            if (key === location.state.TacGia.length - 1) {
-                                                return <div style={{ display: "inline" }} key={key}>
-                                                    {tacgia.TenTacGia}
-                                                    <DeleteAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
-                                                    <UpdateAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
-                                                </div>
-                                            }
-                                            else {
-                                                return <div style={{ display: "inline" }} key={key}>
-                                                    {tacgia.TenTacGia}
-                                                    <DeleteAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
-                                                    <UpdateAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
-                                                    ,
-                                                </div>
-                                            }
-                                        }) : <span>Đang tiến hành</span>}</div>
+                                        <div style={{ display: "block" }}>
+                                            <PersonIcon style={{ height: "22px", marginRight: "10px", marginBottom: "2px" }}></PersonIcon>
+                                            Tác giả: {location.state.TacGia.length > 0 ? location.state.TacGia.map((tacgia, key) => {
+                                                if (key === location.state.TacGia.length - 1) {
+                                                    return <div style={{ display: "inline" }} key={key}>
+                                                        {tacgia.TenTacGia}
+                                                        <DeleteAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
+                                                        <UpdateAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
+                                                    </div>
+                                                }
+                                                else {
+                                                    return <div style={{ display: "inline" }} key={key}>
+                                                        {tacgia.TenTacGia}
+                                                        <DeleteAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
+                                                        <UpdateAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
+                                                        ,
+                                                    </div>
+                                                }
+                                            }) : <span>Đang tiến hành</span>}</div>
                                         <InsertAuthor bookid={location.state._id} />
                                     </div>
-                                    <div>
-                                        <p> Lượt xem: {location.state.LuotXem}</p>
+                                    <div style={{ display: "inline" }}>
+                                        <p>
+                                            <LocalOfferIcon style={{ height: "22px", marginRight: "10px" }}></LocalOfferIcon>
+                                            Thể loại:
+                                        </p>
                                     </div>
                                     <div>
-                                        <p> Vị trí: {location.state.ViTri}</p>
+                                        <p>
+                                            <VisibilityIcon style={{ marginRight: "10px" }}></VisibilityIcon>
+                                            Lượt xem: {location.state.LuotXem}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p>
+                                            <PlaceIcon style={{ marginRight: "10px" }}></PlaceIcon>
+                                            Vị trí: {location.state.ViTri}
+                                        </p>
                                     </div>
                                     <div>
                                         {location.state.Chapter.length > 0 ?
                                             <Link style={{ marginRight: "9px" }}
                                                 to={{
                                                     pathname: `/trangdocsach/${location.state._id}/${location.state.Chapter[0]._id}`
-                                                }}> <button
-                                                    style={{ fontWeight: "bold", height: "70px", width: "100px", borderRadius: "10px", backgroundColor: "darkturquoise" }} type="button">
+                                                }}> <button className='read-button' type="button">
                                                     Đọc từ đầu
                                                 </button>
                                             </Link>
@@ -94,37 +114,52 @@ function TrangChapter() {
                                             }}>
                                             </Link>
                                         }
+                                        <button className='borrow-book-button' type="button">
+                                            Mượn sách
+                                        </button>
+                                    </div>
+                                    <div>
                                         <Link>
-                                            <button
-                                                style={{ fontWeight: "bold", height: "70px", width: "100px", borderRadius: "10px", backgroundColor: "cyan" }} type="button">
-                                                Mượn sách
+                                            <button className='download-btn' type="button">
+                                                Download
                                             </button>
                                         </Link>
                                     </div>
                                 </Col>
                             </Row>
                             <Row>
-                                <div>
-                                    <p>Nội dung: {location.state.MoTa}</p>
+                                <div style={{ marginTop: "20px" }}>
+                                    <DescriptionOutlinedIcon style={{ height: "27px", marginBottom: "8px" }}></DescriptionOutlinedIcon>
+                                    <p style={{ fontSize: "20px", display: "inline" }}>Nội dung:</p>
                                 </div>
                             </Row>
-                            <Row >
-                                Danh sách chương:
+                            <Row style={{ height: "2px", backgroundColor: "blue", marginLeft: "1px" }}></Row>
+                            <Row>
+                                <p>{location.state.MoTa}</p>
                             </Row>
                             <Row>
+                                <div style={{ marginTop: "10px" }}>
+                                    <FormatListBulletedIcon style={{ height: "27px", marginBottom: "5px" }}></FormatListBulletedIcon>
+                                    <p style={{ display: "inline", fontSize: "20px" }}>Danh sách chương</p>
+                                </div>
+                            </Row>
+                            <Row style={{ height: "2px", backgroundColor: "blue", marginLeft: "1px" }}></Row>
+                            <Row style={{ border: "groove", borderRadius: "5px", marginTop: "10px" }}>
                                 <InsertChapter bookid={location.state._id} />
                                 {location.state.Chapter.length > 0 ? location.state.Chapter.map((chapter, key1) => {
                                     return <div style={{ margin: "5px" }} key={key1}>
                                         <Link
-                                        to={{
-                                            pathname: `/trangdocsach/${location.state._id}/${chapter._id}`
-                                        }} state={chapter} style={{ display: "inline", margin: "5px", textDecoration:"none", color:"black" }}>{chapter.ChapterTitle}</Link>
+                                            to={{
+                                                pathname: `/trangdocsach/${location.state._id}/${chapter._id}`
+                                            }} state={chapter} style={{ display: "inline", margin: "5px", textDecoration: "none", color: "black" }}>{chapter.ChapterTitle}
+                                        </Link>
                                         <DeleteChapter style={{ display: "inline" }} page={{ bookid: location.state._id, chapterid: chapter._id }} />
                                         <UpdateChapter style={{ display: "inline" }} chap={{ bookid: location.state._id, chapterid: chapter._id }} />
+                                        <div style={{ display: "block" }}>..............................................................................</div>
                                     </div>
                                 }) : <div>Đang cập nhật</div>}
                             </Row>
-                            <Row>
+                            <Row style={{ marginTop: "10px" }}>
                                 <ButtonComment bookid={location.state._id} />
                             </Row>
                             <Row>

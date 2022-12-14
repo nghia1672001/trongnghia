@@ -9,6 +9,41 @@
     border-radius: 5px;
 }
 
+.read-button{
+    font-weight: bold;
+    height: 70px; 
+    width: 100px;
+    border-radius: 10px; 
+    background-color: darkturquoise;
+    border: none;
+}
+
+.read-button:hover{
+    background-color:lightblue;
+}
+
+.borrow-book-button{
+    font-weight: bold;
+    height: 70px; 
+    width: 100px;
+    border-radius: 10px; 
+    border: none;
+    background-color: darkturquoise;
+}
+.borrow-book-button:hover{
+    background-color: darkcyan;
+}
+
+.download-btn{
+    margin-top: 10px;
+    font-weight: bold;
+    height: 40px; 
+    width: 100px;
+    border-radius: 5px;
+    border:none; 
+    background-color:mediumspringgreen;
+}
+
 @media screen and (max-width: 800px) {
     .chapter-item {
         height: 40vh;

@@ -1,7 +1,10 @@
 .bg-navcuatan {
     position: relative;
     height: 60px;
-    background-color: rgb(180, 180, 119);
+    background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+    /* background-image: linear-gradient(to right, #ffc3a0 0%, #ffafbd 100%); */
+    
+
 }
 
 .nav-mau-chu {
@@ -70,9 +73,11 @@
     width: 40px;
     height: 40px;
 }
+
 .nav__toggle__button {
     margin: 10px;
 }
+
 @media screen and (max-width: 991px) {
     .nav-links {
         display: flex;
@@ -102,6 +107,7 @@
         background-color: red;
         z-index: 100;
     }
+
     /* .nav-user-image {
         position: relative;
         width: 40px;

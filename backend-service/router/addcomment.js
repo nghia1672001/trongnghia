@@ -53,8 +53,8 @@ router.post("/addcomment/:id/:_id", async (req, res) => {
     }
 })
 
-router.put("/usercommentinfo/:id", (req, res) => {
-    Users.findOne({ "BinhLuan._id": mongoose.Types.ObjectId(req.params.id) })
+router.put("/usercommentinfo/:id", async(req, res) => {
+    await Users.findOne({ "BinhLuan._id": mongoose.Types.ObjectId(req.params.id) })
         .then(user => res.json({
             "userimage": user.Image, "username": user.UserName,
         }))

@@ -24,7 +24,6 @@ function UpdateBook(id) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(id);
         axios.put(`http://localhost:4000/add/singlebook/${id.id}`)
             .then(res => {
                 setTenSach(res.data.TenSach);
@@ -33,7 +32,6 @@ function UpdateBook(id) {
                 setNamSangTac(res.data.NamSangTac);
             })
             .catch(err => {
-                console.log(err);
             });
     }, [id])
 

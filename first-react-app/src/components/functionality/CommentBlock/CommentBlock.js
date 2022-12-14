@@ -5,7 +5,6 @@ import axios from 'axios';
 import './CommentBlock.css'
 
 function CommentBlock(binhluanstate) {
-    console.log(binhluanstate)
     const [commentuimg, setCommentUImg] = useState("");
     const [commentuname, setCommentUName] = useState("");
     useEffect(() => {

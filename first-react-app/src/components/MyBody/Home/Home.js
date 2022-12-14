@@ -5,6 +5,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 import axios from 'axios';
 import './Home.css';
 import Insert from '../../Buttons/ButtonsBook/Insert';
@@ -47,9 +49,14 @@ function Home({ toHome }) {
                 console.log(err);
             });
     }, [])
+    
 
     return (
         <Container style={{ margin: "20px auto" }}>
+            <Row style={{ fontSize:"30px", marginLeft:"3px" }}> 
+                Sách nổi bật
+            </Row>
+            <Row style={{height:"4px", backgroundColor:"blue", marginBottom:"10px", width:"24vw", borderRadius:"5px"}}></Row> 
             <Row>
                 <Carousel
                     swipeable
@@ -96,6 +103,10 @@ function Home({ toHome }) {
                     }
                 </Carousel>
             </Row>
+            <Row style={{ fontSize: "30px", marginLeft: "3px", marginTop: "10px" }}>
+                Truyện mới cập nhật
+            </Row>
+            <Row style={{ height: "3px", backgroundColor: "blue", marginBottom: "10px", width:"24vw", borderRadius: "4px" }}></Row>
             <Insert />
             <Row>
                 <Col lg={9}>
@@ -109,7 +120,8 @@ function Home({ toHome }) {
                                     pathname: `/trangchapter/${truyen._id}`
                                 }} className='book-item-title'>{truyen.TenSach}</Link>
                                 <div>
-                                    <p>Lượt xem: {truyen.LuotXem}</p>
+                                    <VisibilityIcon style={{ height: "18px" }}></VisibilityIcon>
+                                    <p style={{ display: "inline" }}>: {truyen.LuotXem}</p>
                                 </div>
                                 {
                                     truyen.Chapter ? truyen.Chapter.reverse().map((chapter, key1) => {
