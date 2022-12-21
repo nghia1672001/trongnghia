@@ -71,7 +71,7 @@ function TrangChapter() {
                                                     </div>
                                                 }
                                                 else {
-                                                    return <div style={{ display: "inline" }} key={key}>
+                                                    return <div style={{ display: "inline", marginRight:"3px" }} key={key}>
                                                         {tacgia.TenTacGia}
                                                         <DeleteAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
                                                         <UpdateAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
@@ -82,9 +82,9 @@ function TrangChapter() {
                                         <InsertAuthor bookid={location.state._id} />
                                     </div>
                                     <div style={{ display: "inline" }}>
-                                        <p>
+                                        <p style={{marginTop:"14px"}}>
                                             <LocalOfferIcon style={{ height: "22px", marginRight: "10px" }}></LocalOfferIcon>
-                                            Thể loại:
+                                            Thể loại: 
                                         </p>
                                     </div>
                                     <div>
@@ -119,11 +119,16 @@ function TrangChapter() {
                                         </button>
                                     </div>
                                     <div>
-                                        <Link>
-                                            <button className='download-btn' type="button">
+                                            <button onClick={() =>{
+                                                if(window.confirm("ban co muon tai ve") === true){
+                                                    window.parent.open(location.state.NoiDung)
+                                                }
+                                                else{
+                                                    alert("ban da huy tai ve")
+                                                }
+                                            }} className='download-btn' type="button">
                                                 Download
                                             </button>
-                                        </Link>
                                     </div>
                                 </Col>
                             </Row>
@@ -163,7 +168,7 @@ function TrangChapter() {
                                 <ButtonComment bookid={location.state._id} />
                             </Row>
                             <Row>
-                                {location.state.BinhLuan.length > 0 ? location.state.BinhLuan.reverse().map((binhluan, key2) => {
+                                {location.state.BinhLuan.length > 0 ? location.state.BinhLuan.map((binhluan, key2) => {
                                     return <div key={key2}>
                                         <CommentBlock binhluanstate={{ binhluanid: binhluan._id, noidung: binhluan.NoiDung }} />
                                     </div>

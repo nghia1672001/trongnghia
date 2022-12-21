@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 
 const xulySchema = new Schema({
 
-    TinhTrang: { type: Number },
+    TinhTrang: { type: String },
     NgayMuon: { type: String, required: true },
     NgayTra: { type: String, required: true },
-    User: [],
-    Sach: [],
+    User: { type:String },
+    Sach: {type:String}, 
 })
 
 const Xuly = mongoose.model("Xuly", xulySchema);

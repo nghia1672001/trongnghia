@@ -6,6 +6,8 @@ import storage from "../../../FirebaseConfig"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import axios from 'axios';
 
+import './BookCRUD.css';
+
 
 function InsertBook() {
     const [TenSach, setTenSach] = useState('');
@@ -21,9 +23,16 @@ function InsertBook() {
     const uyear = useRef();
     const ulocation = useRef();
     const navigate = useNavigate();
+    const loadingbtn = useRef();
+
+    const [loading,setLoading] = useState('loading-hidden');
 
     const Nhapvao = async (e) => {
+        loadingbtn.current.setAttribute("disabled", "disabled");
         e.preventDefault();
+
+        setLoading('loading-show');
+
 
         if (TenSach === '') {
             alert("Vui long nhap ten sach");
@@ -144,7 +153,10 @@ function InsertBook() {
         }
     }
     return (
-        <Form style={{ border: "1px solid black", borderRadius: "10px", padding: "10px", margin: "5% 30%" }} onSubmit={Nhapvao} encType='multipart/form-data'>
+        <Form className='form-book' onSubmit={Nhapvao} encType='multipart/form-data'>
+            <div className={loading}>
+                <img width="10%" height="auto" style={{ display:"block" ,marginLeft:"auto", marginRight:"auto" , marginTop:"40vh"}} src={process.env.PUBLIC_URL + `/image/Youtube_loading_symbol_1_(wobbly).gif`} alt="" />
+            </div>
             <h1 style={{ textAlign: "center" }}>Thêm sách</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Tên sách</Form.Label>
@@ -175,7 +187,7 @@ function InsertBook() {
                 <Form.Control onChange={e => setNamSangTac(e.target.value)} ref={uyear} type="text" placeholder="Nhập năm sáng tác" />
             </Form.Group>
             <div style={{ textAlign: "center" }}>
-                <Button style={{ margin: "10px" }} variant="primary" type="submit">
+                <Button ref={loadingbtn} style={{ margin: "10px" }} variant="primary" type="submit">
                     Thêm Sách
                 </Button>
             </div>

@@ -4,8 +4,13 @@ import MyRoutes from './MyRoutes';
 
 import { useEffect, useState } from 'react';
 
+
+
 import axios from 'axios';
+import useLocalStorage from 'use-local-storage';
 function App() {
+  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark':'light');
   const [books, setBooks] = useState('');
 
   useEffect(() => {
@@ -18,8 +23,8 @@ function App() {
             });
   }, [])
   return (
-    <div className="App">
-      <MyNavBar />
+    <div data-theme={theme} style={{ backgroundColor: "var(--body-background-color)", color:"var(--body-text-color)"}} className="App">
+      <MyNavBar theme={theme} onTogglePress={setTheme} />
       <MyRoutes toRoute={books} />
     </div>
   );

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 import Switch from '@mui/material/Switch';
-import { useEffect, useState } from 'react';
+
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-switchBase.Mui-checked': {
     color: green[600],
@@ -17,24 +17,20 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 
 const label = { inputProps: { 'aria-label': 'Color switch demo' } };
 
-export default function ColorSwitches() {
-    const [darkMode, setDarkMode] = useState(localStorage.getItem('theme') === 'dark' ? true : false);
-    useEffect(() => {
-        if (darkMode) {
-          document.body.classList.add('dark-mode');
-          localStorage.setItem('theme', 'dark');
-        } else {
-          document.body.classList.remove('dark-mode');
-          localStorage.setItem('theme', 'light');
-        }
-      }, [darkMode]);
-    
-      const toggleDarkMode = () => {
-        setDarkMode(!darkMode);
-      };
+export default function ColorSwitches({ theme, onTogglePress }) {
+
+  const toggleDarkMode = () => {
+    const newTheme= theme === 'light'?'dark':'light';
+    onTogglePress(newTheme);
+  };
   return (
-    <div style = {{paddingTop: "12px"}} onClick={toggleDarkMode} >
-      <GreenSwitch {...label} defaultChecked />
+    <div style={{ paddingTop: "12px" }} onClick={toggleDarkMode} >
+      {
+        theme==="dark"?
+        <GreenSwitch {...label} defaultChecked />
+        :
+        <GreenSwitch {...label}  />
+      }
     </div>
   );
 }

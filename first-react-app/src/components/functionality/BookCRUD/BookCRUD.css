@@ -1,0 +1,27 @@
+.form-book{
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5% 30%;
+}
+.loading-hidden{
+    display:none;
+}
+
+.loading-show{
+    display:block;
+    height:170%;
+    width:100vw;
+    position:absolute;
+    background-color:rgba(211,211,211,0.7);
+    top:0;
+    left:0;
+}
+@media screen and (max-width: 400px) {
+    .form-book{
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 5% 10%;
+    }
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import axios from 'axios';
@@ -9,6 +9,24 @@ function DeleteChapter(page) {
   const navigate = useNavigate();
 
   const location = useLocation();
+  const [userrole, setUserRole] = useState('noneuser');
+  const checkIfLoggedUser = localStorage.getItem('user');
+
+  useEffect(() => {
+    if (checkIfLoggedUser) {
+      axios.get(`http://localhost:4000/userinfo/getrole/${checkIfLoggedUser}`)
+        .then(res => {
+          setUserRole(res.data.Role.toString());
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    else {
+      setUserRole("user");
+    }
+  }, [checkIfLoggedUser])
+
 
   function XoaChapter() {
     axios
@@ -25,7 +43,14 @@ function DeleteChapter(page) {
       });
   }
   return (
-    <RemoveCircleOutlineIcon style={{ display: "inline-block", cursor: "pointer" }} onClick={XoaChapter}></RemoveCircleOutlineIcon>
+    <div style={{ display: "inline-block" }}>
+      {
+        (userrole && userrole === "admin") ?
+          <RemoveCircleOutlineIcon style={{ display: "inline-block", cursor: "pointer" }} onClick={XoaChapter}></RemoveCircleOutlineIcon>
+          :
+          <div style={{ display: "inline-block"}}></div>
+      }
+    </div>
   )
 }
 

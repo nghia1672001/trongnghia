@@ -1,0 +1,9 @@
+:root{
+    --btn-text-color:azure;
+    --body-background-color: white;
+}
+[data-theme='dark']{
+    --body-background-color: black;
+    
+    --body-text-color: azure;
+}

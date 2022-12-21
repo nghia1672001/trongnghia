@@ -17,7 +17,7 @@ import LoginButton from '../Buttons/LoginButton/LoginButton';
 import './MyNavBar.css';
 import ColorSwitches from '../functionality/PageModeToggle/PageModeToggle';
 
-function MyNavBar() {
+function MyNavBar({theme, onTogglePress}) {
     const [dDMStatus, setDDMStatus] = useState('drop-down-menu-hidden');
     const [dDMLabelStatus, setDDMLabelStatus] = useState('nav-drop-down-hidden');
 
@@ -25,13 +25,18 @@ function MyNavBar() {
     const checkIfLoggedUser = localStorage.getItem('user');
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/userinfo/showanh/${checkIfLoggedUser}`)
-            .then(res => {
-                setUserImage(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        if (checkIfLoggedUser) {
+            axios.get(`http://localhost:4000/userinfo/showanh/${checkIfLoggedUser}`)
+                .then(res => {
+                    setUserImage(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        else{
+            setUserImage('');
+        }
     }, [checkIfLoggedUser])
 
     return (
@@ -80,7 +85,7 @@ function MyNavBar() {
                                     </div>
                                 </Nav>
                                 <SearchBar />
-                                <ColorSwitches />
+                                <ColorSwitches theme={theme} onTogglePress={onTogglePress}/>
                                 {
                                     checkIfLoggedUser != null ?
                                         <Nav.Item className="m-auto ">
@@ -103,11 +108,11 @@ function MyNavBar() {
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                         </Nav.Item>
-                                        
+
                                         : <Nav.Item className="m-auto">
                                             <LoginButton />
                                         </Nav.Item>
-                                       
+
                                 }
                             </Offcanvas.Body>
                         </Navbar.Offcanvas>

@@ -7,6 +7,8 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import axios from 'axios';
 import { useEffect } from 'react';
 
+import './BookCRUD.css';
+
 
 function UpdateBook(id) {
     const [TenSach, setTenSach] = useState('');
@@ -22,6 +24,9 @@ function UpdateBook(id) {
     const uyear = useRef();
     const ulocation = useRef();
     const navigate = useNavigate();
+    const [loading,setLoading] = useState('loading-hidden');
+
+    const loadingbtn = useRef();
 
     useEffect(() => {
         axios.put(`http://localhost:4000/add/singlebook/${id.id}`)
@@ -36,7 +41,9 @@ function UpdateBook(id) {
     }, [id])
 
     const Nhapvao = async (e) => {
+        loadingbtn.current.setAttribute("disabled", "disabled");
         e.preventDefault();
+        setLoading('loading-show');
 
         if (TenSach === '') {
             alert("Vui long nhap ten sach");
@@ -156,7 +163,10 @@ function UpdateBook(id) {
         }
     }
     return (
-        <Form style={{ border: "1px solid black", borderRadius: "10px", padding: "10px", margin: "5% 30%" }} onSubmit={Nhapvao} encType='multipart/form-data'>
+        <Form className='form-book' onSubmit={Nhapvao} encType='multipart/form-data'>
+             <div className={loading}>
+                <img width="10%" height="auto" style={{ display:"block" ,marginLeft:"auto", marginRight:"auto" , marginTop:"40vh"}} src={process.env.PUBLIC_URL + `/image/Youtube_loading_symbol_1_(wobbly).gif`} alt="" />
+            </div>
             <h1 style={{ textAlign: "center" }}>Cap nhat sách</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Tên sách</Form.Label>
@@ -187,7 +197,7 @@ function UpdateBook(id) {
                 <Form.Control value={NamSangTac ?? ""} onChange={e => setNamSangTac(e.target.value)} ref={uyear} type="text" placeholder="Nhập năm sáng tác" />
             </Form.Group>
             <div style={{ textAlign: "center" }}>
-                <Button style={{ margin: "10px" }} variant="primary" type="submit">
+                <Button ref={loadingbtn} style={{ margin: "10px" }} variant="primary" type="submit">
                     Thêm Sách
                 </Button>
             </div>

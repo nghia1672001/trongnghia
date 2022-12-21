@@ -3,7 +3,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,23 @@ function UpdateChapter(chap) {
     const navigate = useNavigate();
 
     const location = useLocation();
+    const [userrole, setUserRole] = useState('noneuser');
+    const checkIfLoggedUser = localStorage.getItem('user');
+
+    useEffect(() => {
+        if (checkIfLoggedUser) {
+            axios.get(`http://localhost:4000/userinfo/getrole/${checkIfLoggedUser}`)
+                .then(res => {
+                    setUserRole(res.data.Role.toString());
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        else {
+            setUserRole("user");
+        }
+    }, [checkIfLoggedUser])
 
     function UpdateChap() {
         if (chapter === "") {
@@ -41,19 +58,25 @@ function UpdateChapter(chap) {
         }
     }
     return (
-        <div style={{ display: "inline", padding: "2px", alignItems: "center" }}>
-            {updatestate ?
-                <TipsAndUpdatesIcon style={{ cursor: "pointer" }} onClick={() => setUpdateState(false)}></TipsAndUpdatesIcon>
-                :
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "start", marginLeft: "5px" }}>
-                    <RemoveCircleOutlineIcon style={{ backgroundColor: "red", cursor: "pointer" }} onClick={() => setUpdateState(true)}></RemoveCircleOutlineIcon>
+        <div style={{ display: "inline" }}>
+            {
+                (userrole && userrole === "admin") ?
+                    <div style={{ display: "inline", padding: "2px", alignItems: "center" }}>
+                        {updatestate ?
+                            <TipsAndUpdatesIcon style={{ cursor: "pointer" }} onClick={() => setUpdateState(false)}></TipsAndUpdatesIcon>
+                            :
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "start", marginLeft: "5px" }}>
+                                <RemoveCircleOutlineIcon style={{ backgroundColor: "red", cursor: "pointer" }} onClick={() => setUpdateState(true)}></RemoveCircleOutlineIcon>
 
-                    <input onChange={e => setChapter(e.target.value)} style={{ margin: "5px 0px", padding: "5px", width: "100%" }} type="text" placeholder="Nhập tên chương"></input>
-                    <textarea value={mota ?? ""} style={{ width: "100%" }} onChange={e => setMoTa(e.target.value)}> </textarea>
+                                <input onChange={e => setChapter(e.target.value)} style={{ margin: "5px 0px", padding: "5px", width: "100%" }} type="text" placeholder="Nhập tên chương"></input>
+                                <textarea value={mota ?? ""} style={{ width: "100%" }} onChange={e => setMoTa(e.target.value)}> </textarea>
 
-                    <CheckCircleIcon onClick={UpdateChap} style={{ margin: "3px", cursor: "pointer" }}></CheckCircleIcon>
-                </div>
-            }
+                                <CheckCircleIcon onClick={UpdateChap} style={{ margin: "3px", cursor: "pointer" }}></CheckCircleIcon>
+                            </div>
+                        }
+                    </div>:
+                    <div style={{ display: "inline" }}></div>
+        }
         </div>
     )
 }

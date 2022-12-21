@@ -13,6 +13,19 @@ router.get("/showanh/:id", async (req, res) => {
         })
         .catch(err => res.status(400).json(`Error: ${err}`))
 });
+/*lay role*/
+router.get("/getrole/:id", async (req, res) => {
+    await Users.findById(req.params.id)
+        .then(user => {
+            const userrole = new Users({
+                Role: user.Role,
+            })
+            
+            res.json(userrole);
+        })
+        .catch(err => res.status(400).json(`Error: ${err}`))
+});
+
 router.put("/doianh/:id", async (req, res)  => {
     await Users.findById(req.params.id)
     .then(user => {

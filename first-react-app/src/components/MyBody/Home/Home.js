@@ -52,7 +52,7 @@ function Home({ toHome }) {
     
 
     return (
-        <Container style={{ margin: "20px auto" }}>
+        <Container style={{ margin: "20px auto"}}>
             <Row style={{ fontSize:"30px", marginLeft:"3px" }}> 
                 Sách nổi bật
             </Row>
@@ -111,7 +111,7 @@ function Home({ toHome }) {
             <Row>
                 <Col lg={9}>
                     <Row className="justify-content-center" lg={5} md={4} xs={3}>
-                        {toHome ? toHome.reverse().map((truyen, key) => (
+                        {toHome ? toHome.map((truyen, key) => (
                             <Col key={key} className="book-item">
                                 <Update bookid={truyen._id} />
                                 <Delete bookid={truyen._id} />
@@ -124,7 +124,7 @@ function Home({ toHome }) {
                                     <p style={{ display: "inline" }}>: {truyen.LuotXem}</p>
                                 </div>
                                 {
-                                    truyen.Chapter ? truyen.Chapter.reverse().map((chapter, key1) => {
+                                    truyen.Chapter ? truyen.Chapter.map((chapter, key1) => {
                                         if (key1 < 3) {
                                             return <Link onClick={() => tangluot(truyen._id)} to={{
                                                 pathname: `/trangdocsach/${truyen._id}/${chapter._id}`
@@ -142,7 +142,7 @@ function Home({ toHome }) {
                 <Col lg={3}>
                     {
                         commentstatus ?
-                            commentlist.reverse().map((comment, key2) => {
+                            commentlist.map((comment, key2) => {
                                 return <div key={key2}>
                                     <CommentBlock binhluanstate={{ binhluanid: comment._id, noidung: comment.NoiDung }} />
                                 </div>

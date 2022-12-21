@@ -9,7 +9,10 @@ const Comment = require('../models/binhluan');
 //Lấy bình luận
 router.get("/alls", (req, res) => {
     Comment.find()
-        .then(comment => res.json(comment))
+        .then(comment => {
+            var tempcomment = comment;
+            res.json(tempcomment.reverse());
+        })
         .catch(err => res.status(400).json(`Error: ${err}`))
 });
 //Thêm bình luận

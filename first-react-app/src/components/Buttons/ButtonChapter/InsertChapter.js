@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -15,6 +15,23 @@ function InsertChapter(bookid) {
     const navigate = useNavigate();
 
     const location = useLocation();
+    const [userrole, setUserRole] = useState('noneuser');
+    const checkIfLoggedUser = localStorage.getItem('user');
+
+    useEffect(() => {
+        if (checkIfLoggedUser) {
+            axios.get(`http://localhost:4000/userinfo/getrole/${checkIfLoggedUser}`)
+                .then(res => {
+                    setUserRole(res.data.Role.toString());
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        else {
+            setUserRole("user");
+        }
+    }, [checkIfLoggedUser])
 
     function onAddChapterPress() {
         document.getElementById("chapteraddbtn").style.display = "none";
@@ -56,18 +73,24 @@ function InsertChapter(bookid) {
         }
     }
     return (
-        <div>
-            <div style={{ display: "inline-block", padding: "10px", alignItems: "center" }}>
-                <ControlPointIcon style={{ display: "inline-block", cursor: "pointer" }} id='chapteraddbtn' onClick={onAddChapterPress}></ControlPointIcon>
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "start", marginLeft: "5px" }}>
-                    <RemoveCircleOutlineIcon style={{ display: "none", cursor: "pointer" }} id='chapterrmbtn' onClick={onRemoveChapterPress}></RemoveCircleOutlineIcon>
+        <div style={{ display: "inline-block"}}>
+            {
+                (userrole && userrole === "admin") ?
+                    <div>
+                        <div style={{ display: "inline-block", padding: "10px", alignItems: "center" }}>
+                            <ControlPointIcon style={{ display: "inline-block", cursor: "pointer" }} id='chapteraddbtn' onClick={onAddChapterPress}></ControlPointIcon>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "start", marginLeft: "5px" }}>
+                                <RemoveCircleOutlineIcon style={{ display: "none", cursor: "pointer" }} id='chapterrmbtn' onClick={onRemoveChapterPress}></RemoveCircleOutlineIcon>
 
-                    <input onChange={e => setChapter(e.target.value)} style={{ margin: "5px 0px", display: "none", padding: "5px", width: "100%" }} id='chapterinput' type="text" placeholder="Nhập tên chương"></input>
-                    <textarea value={chaptercontent ?? ""} onChange={e => setChapterContent(e.target.value)} style={{ display: "none", width: "100%" }} id="chaptermota"> </textarea>
+                                <input onChange={e => setChapter(e.target.value)} style={{ margin: "5px 0px", display: "none", padding: "5px", width: "100%" }} id='chapterinput' type="text" placeholder="Nhập tên chương"></input>
+                                <textarea value={chaptercontent ?? ""} onChange={e => setChapterContent(e.target.value)} style={{ display: "none", width: "100%" }} id="chaptermota"> </textarea>
 
-                    <CheckCircleIcon onClick={onConfirmChapterPress} id="chaptercheckbtn" style={{ display: "none", margin: "3px", cursor: "pointer" }}></CheckCircleIcon>
-                </div>
-            </div>
+                                <CheckCircleIcon onClick={onConfirmChapterPress} id="chaptercheckbtn" style={{ display: "none", margin: "3px", cursor: "pointer" }}></CheckCircleIcon>
+                            </div>
+                        </div>
+                    </div>:
+                    <div style={{ display: "inline-block" }}></div> 
+            }
         </div>
     )
 }

@@ -5,7 +5,15 @@ const Sach = require('../models/Sach');
 
 router.get("/alls", (req, res) => {
     Sach.find()
-        .then(sach => res.json(sach))
+        .then(sach => {
+            var tempsach = sach;
+            for(var k in tempsach){
+                
+                tempsach[k].Chapter=tempsach[k].Chapter.reverse();
+            }
+            
+            res.json(tempsach.reverse())
+        })
         .catch(err => res.status(400).json(`Error: ${err}`))
 });
 
