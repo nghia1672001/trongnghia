@@ -10,6 +10,7 @@ import TrangChapter from './components/MyBody/TrangChapter/TrangChapter'
 import TrangDocSach from './components/MyBody/TrangDocSach/TrangDocSach'
 import TrangHai from './components/MyBody/TrangHai'
 import TrangMot from './components/MyBody/TrangMot'
+import TrangMuonSach from './components/MyBody/TrangMuonSach/TrangMuonSach'
 import TrangThemSach from './components/MyBody/TrangThemSach/TrangThemSach'
 import TrangUpdate from './components/MyBody/TrangUpdate/TrangUpdate'
 
@@ -27,6 +28,7 @@ function MyRoutes({toRoute}) {
       <Route path='/trangupdate' element={<TrangUpdate />} />
       <Route path='/trangchapter/:tentruyen' element={<TrangChapter />} />
       <Route path='/trangdocsach/:tentruyen/:tenchapter' element={<TrangDocSach />} />
+      <Route path='/trangmuonsach' element={<TrangMuonSach />} />
     </Routes>
   )
 }

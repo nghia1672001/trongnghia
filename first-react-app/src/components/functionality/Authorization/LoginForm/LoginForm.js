@@ -33,9 +33,6 @@ function LoginForm() {
                 .post(`http://localhost:4000/user/login/`, user)
                 .then(res => {
                     localStorage.setItem('user', res.data.user._id)
-                    // if (res.data.user.usertype) {
-                    //     localStorage.setItem('userrole', res.data.user.usertype)
-                    // }
                     alert(res.data.message)
                     navigate('/')
                     window.location.reload();

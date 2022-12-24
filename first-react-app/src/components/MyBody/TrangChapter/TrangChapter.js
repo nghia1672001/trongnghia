@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -28,8 +28,22 @@ import axios from 'axios';
 function TrangChapter() {
     const [loadingstate, setLoadingState] = useState("Loading data.... Please reload if it takes too long to response");
     const location = useLocation();
+
+    const checkIfLoggedUser = localStorage.getItem('user');
+    const navigate = useNavigate();
     console.log(location);
 
+    function BorrowBook1() {
+        alert("Da dang nhap")
+    }
+    function BorrowBook2() {
+        if (window.confirm("Chuc nang nay can phai dang nhap!Ban co muon sang trang dang ki")) {
+            navigate('/loginform');
+        }
+        else {
+            alert("Ban phai dang nhap de su dung chuc nang");
+        }
+    }
     useEffect(() => {
 
         var temp = location.pathname;
@@ -71,7 +85,7 @@ function TrangChapter() {
                                                     </div>
                                                 }
                                                 else {
-                                                    return <div style={{ display: "inline", marginRight:"3px" }} key={key}>
+                                                    return <div style={{ display: "inline", marginRight: "3px" }} key={key}>
                                                         {tacgia.TenTacGia}
                                                         <DeleteAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
                                                         <UpdateAuthor author={{ bookid: location.state._id, authorid: tacgia._id }} />
@@ -82,9 +96,9 @@ function TrangChapter() {
                                         <InsertAuthor bookid={location.state._id} />
                                     </div>
                                     <div style={{ display: "inline" }}>
-                                        <p style={{marginTop:"14px"}}>
+                                        <p style={{ marginTop: "14px" }}>
                                             <LocalOfferIcon style={{ height: "22px", marginRight: "10px" }}></LocalOfferIcon>
-                                            Thể loại: 
+                                            Thể loại:
                                         </p>
                                     </div>
                                     <div>
@@ -114,21 +128,30 @@ function TrangChapter() {
                                             }}>
                                             </Link>
                                         }
-                                        <button className='borrow-book-button' type="button">
-                                            Mượn sách
-                                        </button>
+                                        {
+                                            checkIfLoggedUser != null ?
+                                                <Link state={location.state._id} to="/trangmuonsach">
+                                                    <button  onClick={BorrowBook1} className='borrow-book-button' type="button">
+                                                        Mượn sách
+                                                    </button>
+                                                </Link>
+                                                :
+                                                <button onClick={BorrowBook2} className='borrow-book-button' type="button">
+                                                    Mượn sách
+                                                </button>
+                                        }
                                     </div>
                                     <div>
-                                            <button onClick={() =>{
-                                                if(window.confirm("ban co muon tai ve") === true){
-                                                    window.parent.open(location.state.NoiDung)
-                                                }
-                                                else{
-                                                    alert("ban da huy tai ve")
-                                                }
-                                            }} className='download-btn' type="button">
-                                                Download
-                                            </button>
+                                        <button onClick={() => {
+                                            if (window.confirm("ban co muon tai ve") === true) {
+                                                window.parent.open(location.state.NoiDung)
+                                            }
+                                            else {
+                                                alert("ban da huy tai ve")
+                                            }
+                                        }} className='download-btn' type="button">
+                                            Download
+                                        </button>
                                     </div>
                                 </Col>
                             </Row>

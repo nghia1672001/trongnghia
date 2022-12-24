@@ -1,0 +1,14 @@
+.datepicker-position {
+    margin-top: 20px;
+    width: 30vw ;
+    transform: translate(-50%, 0);
+}
+.datepicker-form{
+    text-align: center;
+    width: 100%;
+    margin-top:20px
+}
+.calendar{
+    left: 50%;
+    
+}

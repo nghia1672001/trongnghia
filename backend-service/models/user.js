@@ -14,6 +14,7 @@ const userSchema = new Schema({
     SoDienThoai: { type: String },
     Role: { type: String },
     Image: { type: String },
+    Message: [],
     ThuePhong: [],
     BinhLuan: [],
 })
