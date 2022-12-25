@@ -20,7 +20,6 @@ function TrangThongTinUser() {
     if (checkIfLoggedUser) {
       axios.get(`http://localhost:4000/borrow/getxuli`)
         .then((res) => {
-          console.log(res.data);
           setThongBaoMuonSach(res.data);
         })
         .catch(err => {
@@ -42,6 +41,17 @@ function TrangThongTinUser() {
         alert(err);
       })
   }
+
+  function GiveBackBook(xuliid, userid) {
+    axios.put(`http://localhost:4000/borrow/confirm/${xuliid}/${userid}`)
+      .then(() => {
+        alert("Đã trả sách thành công");
+        window.location.reload();
+      })
+      .catch(err => {
+        alert(err);
+      })
+  }
   return (
     <Container>
       <UserImage />
@@ -55,24 +65,33 @@ function TrangThongTinUser() {
               thongbaomuonsach ?
                 thongbaomuonsach.map((a, key) => {
                   return <div key={key} style={{ margin: "10px", border: "1px solid black" }}>
-                    <p>{a.NgayMuon.split('T')[0]}</p>
-                    <p>{a.NgayTra.split('T')[0]}</p>
+                    <p>Ngày mượn: {a.NgayMuon.split('T')[0]}</p>
+                    <p>Ngày trả: {a.NgayTra.split('T')[0]}</p>
                     <BookData bookid={a.Sach} />
+                    <p style={{ marginBottom: "13px" }}></p>
                     <UserData userid={a.User} />
+                    <p style={{ margin: "13px" }}></p>
                     {
                       a.TinhTrang ?
-                        a.TinhTrang === 1 ? "Da tra" :
+                        a.TinhTrang === 1 ? "Đã trả sách" :
                           a.TinhTrang === 2 ? "Chua tra" :
-                            "Dang xu li" :
+                            "Đang xử lí" :
                         "Error"
                     }
                     {
-                      a.TinhTrang === 2 ?
-                        <p></p>
-                        :
+                      a.TinhTrang === 3 ?
                         <p>
                           <CheckCircleIcon onClick={() => ConfirmBorrowBook(a._id, a.User)} ></CheckCircleIcon>
                         </p>
+                        :
+                        <p></p>
+                    }
+                    {
+                      a.TinhTrang === 2 ?
+                        <p>
+                          <button style={{ backgroundColor: "yellowgreen", borderRadius: "3px", border: "none" }} onClick={() => GiveBackBook(a._id, a.User)}>Trả sách</button>
+                        </p> :
+                        <p></p>
                     }
                   </div>
                 })

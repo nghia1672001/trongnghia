@@ -6,18 +6,19 @@ function UserData(userid) {
     const [userdata, setUserData] = useState('');
     useEffect(() => {
         axios.get(`http://localhost:4000/userinfo/showname/${userid.userid}`)
-        .then(res =>{
-            console.log(res.data);
-            setUserData(res.data);
-        })
+            .then(res => {
+                setUserData(res.data);
+            })
     }, [userid])
     return (
-        <div>
-            {
-                userdata?
-                userdata.UserName:
-                "Error"
-            }
+        <div style={{display:"block"}}>Tên người mượn:
+            <div style={{ display: "inline", paddingLeft:"3px" }}>
+                {
+                    userdata ?
+                        userdata.UserName :
+                        "Error"
+                }
+            </div>
         </div>
     )
 }
