@@ -7,12 +7,27 @@ router.get("/showanh/:id", async (req, res) => {
         .then(user => {
             const userinfo = new Users({
                 Image: user.Image,
+                Role: user.Role,
             })
             
             res.json(userinfo);
         })
         .catch(err => res.status(400).json(`Error: ${err}`))
 });
+
+/*lay ten user*/
+router.get("/showname/:id", async (req, res) => {
+    await Users.findById(req.params.id)
+        .then(user => {
+            const userinfo = new Users({
+                UserName: user.UserName,
+            })
+            
+            res.json(userinfo);
+        })
+        .catch(err => res.status(400).json(`Error: ${err}`))
+});
+
 /*lay role*/
 router.get("/getrole/:id", async (req, res) => {
     await Users.findById(req.params.id)

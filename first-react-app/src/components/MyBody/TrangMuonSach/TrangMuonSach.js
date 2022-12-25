@@ -11,26 +11,70 @@ import './TrangMuonSach.css';
 function TrangMuonSach() {
     const [ngaymuon, setNgayMuon] = useState(new Date());
     const [ngaytra, setNgayTra] = useState(new Date());
+
     const checkIfLoggedUser = localStorage.getItem('user');
+
     const d = new Date();
-    var a = "";
-    a = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate();
+
     const navigate = useNavigate();
     const location = useLocation();
-    function BorrowBook() {
-        const xuli = {
-            NgayMuon: ngaymuon,
-            NgayTra: ngaytra,
+
+    //  (b > d) && (a < b)
+    function IsValidDay(a, b) {
+        var temp = a;
+        temp = temp.toString().split(' ')[1] + temp.toString().split(' ')[2] + temp.toString().split(' ')[3];
+
+        var temp1 = d;
+        temp1 = temp1.toString().split(' ')[1] + temp1.toString().split(' ')[2] + temp1.toString().split(' ')[3];
+
+        var temp2 = b;
+        temp2 = temp2.toString().split(' ')[1] + temp2.toString().split(' ')[2] + temp2.toString().split(' ')[3];
+
+
+        console.log(temp2);
+        console.log(temp >= temp1 && temp2 > temp1 && temp2 > temp)
+        if ((temp >= temp1) && (temp2 > temp1) && (temp2 > temp)) {
+            return true;
         }
-        axios
-            .post(`http://localhost:4000/borrow/borrowbook/${checkIfLoggedUser}/${location.state}`, xuli)
-            .then((res) => {
-                alert(res.data);
-                navigate(`/`);
-            })
-            .catch(err => {
-                alert(err);
-            });
+        else {
+            return false;
+        }
+    }
+
+    function IsRangeDay(a, b) {
+        var temp = a;
+
+        var temp2 = b;
+
+        console.log(Math.ceil((temp2 - temp) / (1000 * 60 * 60 * 24)));
+        if ((Math.ceil((temp2 - temp) / (1000 * 60 * 60 * 24)) >= 1) && (Math.ceil((temp2 - temp) / (1000 * 60 * 60 * 24)) <= 14)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function BorrowBook() {
+        if (IsValidDay(ngaymuon, ngaytra) && IsRangeDay(ngaymuon, ngaytra)) {
+            const xuli = {
+                NgayMuon: ngaymuon,
+                NgayTra: ngaytra,
+            }
+            axios
+                .post(`http://localhost:4000/borrow/borrowbook/${checkIfLoggedUser}/${location.state}`, xuli)
+                .then((res) => {
+                    alert(res.data);
+                    navigate(`/`);
+                })
+                .catch(err => {
+                    alert(err);
+                });
+        }
+        else {
+            alert("Moi nhap lai!");
+        }
+
     }
     return (
         <Container style={{ margin: "20px auto" }}>
@@ -38,6 +82,7 @@ function TrangMuonSach() {
                 <Col xs={1}>
                     <div className='datepicker-position'>
                         <DatePicker
+                            dateFormat="yyyy/MM/dd"
                             startDate={ngaymuon}
                             endDate={ngaytra}
                             selectsStart
@@ -46,6 +91,7 @@ function TrangMuonSach() {
                             selected={ngaymuon}
                             onChange={(date) => setNgayMuon(date)} />
                         <DatePicker
+                            dateFormat="yyyy/MM/dd"
                             selectsEnd
                             className='datepicker-form'
                             selected={ngaytra}

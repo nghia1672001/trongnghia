@@ -33,10 +33,7 @@ function TrangChapter() {
     const navigate = useNavigate();
     console.log(location);
 
-    function BorrowBook1() {
-        alert("Da dang nhap")
-    }
-    function BorrowBook2() {
+    function BorrowBookDeny() {
         if (window.confirm("Chuc nang nay can phai dang nhap!Ban co muon sang trang dang ki")) {
             navigate('/loginform');
         }
@@ -131,12 +128,12 @@ function TrangChapter() {
                                         {
                                             checkIfLoggedUser != null ?
                                                 <Link state={location.state._id} to="/trangmuonsach">
-                                                    <button  onClick={BorrowBook1} className='borrow-book-button' type="button">
+                                                    <button className='borrow-book-button' type="button">
                                                         Mượn sách
                                                     </button>
                                                 </Link>
                                                 :
-                                                <button onClick={BorrowBook2} className='borrow-book-button' type="button">
+                                                <button onClick={BorrowBookDeny} className='borrow-book-button' type="button">
                                                     Mượn sách
                                                 </button>
                                         }

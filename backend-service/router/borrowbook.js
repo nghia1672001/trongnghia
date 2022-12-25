@@ -37,7 +37,7 @@ router.post("/borrowbook/:userid/:bookid", async (req, res) => {
                                 for (var i in admin) {
                                     admin[i].Message.push(message);
                                     admin[i].save()
-                                        .then(() => console.log(i))
+                                        .then()
                                         .catch((err) => console.log(err))
                                 }
                             })
@@ -48,7 +48,7 @@ router.post("/borrowbook/:userid/:bookid", async (req, res) => {
             }
         })
 })
-/* Xac nhan admin da dua sach*/
+/* Xac nhan admin da dong y cho muon sach*/
 router.put("/confirmborrow/:xuliid/:userid", async (req, res) => {
     var result = "";
     var error = "";

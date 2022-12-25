@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import axios from 'axios';
 
@@ -17,11 +17,16 @@ import LoginButton from '../Buttons/LoginButton/LoginButton';
 import './MyNavBar.css';
 import ColorSwitches from '../functionality/PageModeToggle/PageModeToggle';
 
-function MyNavBar({theme, onTogglePress}) {
+function MyNavBar({ theme, onTogglePress }) {
     const [dDMStatus, setDDMStatus] = useState('drop-down-menu-hidden');
     const [dDMLabelStatus, setDDMLabelStatus] = useState('nav-drop-down-hidden');
 
     const [userImage, setUserImage] = useState('');
+    const [isadminrole, setAdminRole] = useState(false);
+
+    const OffcanvasRef = useRef();
+    const closeOffCanvas = ()=> OffcanvasRef.current.backdrop.click();
+
     const checkIfLoggedUser = localStorage.getItem('user');
 
     useEffect(() => {
@@ -29,12 +34,18 @@ function MyNavBar({theme, onTogglePress}) {
             axios.get(`http://localhost:4000/userinfo/showanh/${checkIfLoggedUser}`)
                 .then(res => {
                     setUserImage(res.data);
+                    if (res.data.Role.toString() === "admin") {
+                        setAdminRole(true);
+                    }
+                    else {
+                        setAdminRole(false);
+                    }
                 })
                 .catch(err => {
                     console.log(err);
                 });
         }
-        else{
+        else {
             setUserImage('');
         }
     }, [checkIfLoggedUser])
@@ -46,6 +57,7 @@ function MyNavBar({theme, onTogglePress}) {
                     <Container>
                         <Navbar.Brand style={{ color: "darkblue" }} href="/">Trang chủ</Navbar.Brand>
                         <Navbar.Offcanvas
+                            ref={OffcanvasRef}
                             id={`offcanvasNavbar-expand-false`}
                             aria-labelledby={`offcanvasNavbarLabel-expand-false`}
                             placement="end"
@@ -80,12 +92,12 @@ function MyNavBar({theme, onTogglePress}) {
                                             </div>
                                         </div>
                                         <div className="nav-links-items">
-                                            <Link to="/trang2" className='nav-mau-chu'>Lịch sử</Link>
+                                            <Link to="/tranglichsu" className='nav-mau-chu'>Lịch sử</Link>
                                         </div>
                                     </div>
                                 </Nav>
                                 <SearchBar />
-                                <ColorSwitches theme={theme} onTogglePress={onTogglePress}/>
+                                <ColorSwitches theme={theme} onTogglePress={onTogglePress} />
                                 {
                                     checkIfLoggedUser != null ?
                                         <Nav.Item className="m-auto ">
@@ -99,7 +111,9 @@ function MyNavBar({theme, onTogglePress}) {
                                                 </Dropdown.Toggle>
 
                                                 <Dropdown.Menu>
-                                                    <Dropdown.Item href="/trangbon">Sửa thông tin cá nhân</Dropdown.Item>
+                                                    <Dropdown.Item as={Link} onClick={closeOffCanvas} state={isadminrole} to="/trangthongtinuser">
+                                                        Sửa thông tin cá nhân
+                                                    </Dropdown.Item>
                                                     <Dropdown.Item onClick={
                                                         () => {
                                                             localStorage.removeItem('user');
@@ -125,6 +139,7 @@ function MyNavBar({theme, onTogglePress}) {
                         <Navbar.Brand style={{ color: "navy" }} href="/">Trang chủ</Navbar.Brand>
                         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-false`} />
                         <Navbar.Offcanvas
+                            ref={OffcanvasRef}
                             id={`offcanvasNavbar-expand-false`}
                             aria-labelledby={`offcanvasNavbarLabel-expand-false`}
                             placement="end"
@@ -160,7 +175,7 @@ function MyNavBar({theme, onTogglePress}) {
                                             </div>
                                         </div>
                                         <div className="nav-links-items">
-                                            <Link to="/trang2" className='nav-mau-chu'>Lịch sử</Link>
+                                            <Link to="/tranglichsu" className='nav-mau-chu'>Lịch sử</Link>
                                         </div>
                                     </div>
                                 </Nav>
@@ -178,7 +193,9 @@ function MyNavBar({theme, onTogglePress}) {
                                                 </Dropdown.Toggle>
 
                                                 <Dropdown.Menu>
-                                                    <Dropdown.Item href="/trangbon">Sửa thông tin cá nhân</Dropdown.Item>
+                                                    <Dropdown.Item as={Link} onClick={closeOffCanvas} state={isadminrole} to="/trangthongtinuser">
+                                                        Sửa thông tin cá nhân
+                                                    </Dropdown.Item>
                                                     <Dropdown.Item onClick={
                                                         () => {
                                                             localStorage.removeItem('user');
