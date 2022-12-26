@@ -24,6 +24,7 @@ function Home({ toHome }) {
 
     const [carouselbooklist, setCarouselBookList] = useState([]);
     const [carouseltatus, setCarouselStatus] = useState(false);
+
     async function tangluot(id) {
         await axios
             .put(`http://localhost:4000/luotxem/update/${id}`);

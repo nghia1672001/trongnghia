@@ -10,30 +10,41 @@ import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import MediaQuery from 'react-responsive'
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import SearchBar from '../functionality/SearchBar/SearchBar';
 import LoginButton from '../Buttons/LoginButton/LoginButton';
 import './MyNavBar.css';
 import ColorSwitches from '../functionality/PageModeToggle/PageModeToggle';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { Button } from 'react-bootstrap';
 
-function MyNavBar({ theme, onTogglePress }) {
+function MyNavBar({ theme, onTogglePress, setBooks }) {
     const [dDMStatus, setDDMStatus] = useState('drop-down-menu-hidden');
     const [dDMLabelStatus, setDDMLabelStatus] = useState('nav-drop-down-hidden');
 
+    const [showbtntext, setShowBtnText] = useState(false);
+
     const [userImage, setUserImage] = useState('');
     const [isadminrole, setAdminRole] = useState(false);
+    const [getmessage, setGetMessage] = useState('');
+
+    const [searchResult, setSearchResult] = useState('');
 
     const OffcanvasRef = useRef();
-    const closeOffCanvas = ()=> OffcanvasRef.current.backdrop.click();
+    const closeOffCanvas = () => OffcanvasRef.current.backdrop.click();
 
+    const navigate = useNavigate();
     const checkIfLoggedUser = localStorage.getItem('user');
+
 
     useEffect(() => {
         if (checkIfLoggedUser) {
             axios.get(`http://localhost:4000/userinfo/showanh/${checkIfLoggedUser}`)
                 .then(res => {
                     setUserImage(res.data);
+                    setGetMessage(res.data.Message);
+                    console.log(res.data);
                     if (res.data.Role.toString() === "admin") {
                         setAdminRole(true);
                     }
@@ -47,9 +58,25 @@ function MyNavBar({ theme, onTogglePress }) {
         }
         else {
             setUserImage('');
+            setAdminRole(false);
+            setGetMessage('');
         }
     }, [checkIfLoggedUser])
 
+    function UserReadMessage(messageid, isadmin) {
+        axios.put(`http://localhost:4000/borrow/confirmseen/${checkIfLoggedUser}/${messageid}`)
+            .then(() => {
+                if (isadmin) {
+                    navigate('/trangthongtinuser', { state: isadmin })
+                }
+                else {
+                    navigate('/tranglichsu')
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
     return (
         <div>
             <MediaQuery minWidth={992}>
@@ -96,7 +123,58 @@ function MyNavBar({ theme, onTogglePress }) {
                                         </div>
                                     </div>
                                 </Nav>
-                                <SearchBar />
+                                {
+                                    checkIfLoggedUser != null ?
+                                        <Nav.Item className="m-auto nav-image-margin">
+                                            <Dropdown>
+                                                <Dropdown.Toggle variant="outline" id="dropdown-basic">
+                                                    <NotificationsActiveIcon style={{ height: "40px", fontSize: "30px" }} ></NotificationsActiveIcon>
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu bsPrefix='dropdown-menu drop-down-menu-center'>
+                                                    {
+                                                        getmessage ?
+                                                            getmessage.map((a, i = 0) => {
+                                                                i++;
+                                                                if (i < 10) {
+                                                                    if (a.Seen) {
+                                                                        return <Dropdown.Item key={i} as={Link} state={isadminrole} to='/trangthongtinuser'>{a.Noidung}</Dropdown.Item>
+                                                                    }
+                                                                    else {
+                                                                        return <Dropdown.Item key={i} onClick={() => UserReadMessage(a._id, isadminrole)}  ><span style={{ color: "red" }}>{a.Noidung}</span></Dropdown.Item>
+                                                                    }
+                                                                }
+                                                                else {
+                                                                    if (a.Seen) {
+                                                                        return <Dropdown.Item key={i} bsPrefix={showbtntext ? "dropdown-item" : "nav-dd-hide"} as={Link} state={isadminrole} to='/trangthongtinuser'>{a.Noidung}</Dropdown.Item>
+                                                                    }
+                                                                    else {
+                                                                        return <Dropdown.Item key={i} bsPrefix={showbtntext ? "dropdown-item" : "nav-dd-hide"} onClick={() => UserReadMessage(a._id, isadminrole)}  ><span style={{ color: "red" }}>{a.Noidung}</span></Dropdown.Item>
+                                                                    }
+
+                                                                }
+
+                                                            })
+                                                            : <Dropdown.Item>Khong co thong bao</Dropdown.Item>
+                                                    }
+                                                    {
+                                                        getmessage.length >= 10 ?
+                                                            <Button style={{ marginLeft: "100px" }} onClick={() => {
+                                                                if (showbtntext) {
+                                                                    setShowBtnText(false);
+                                                                }
+                                                                else {
+                                                                    setShowBtnText(true);
+                                                                }
+                                                            }}>{showbtntext ? "Show less" : "Show more"}</Button> :
+                                                            <div></div>
+                                                    }
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Nav.Item>
+                                        : <Nav.Item></Nav.Item>
+                                }
+                                <SearchBar setSearchResult={setSearchResult} searchResult={searchResult} setBooks={setBooks} />
                                 <ColorSwitches theme={theme} onTogglePress={onTogglePress} />
                                 {
                                     checkIfLoggedUser != null ?
@@ -111,13 +189,14 @@ function MyNavBar({ theme, onTogglePress }) {
                                                 </Dropdown.Toggle>
 
                                                 <Dropdown.Menu>
-                                                    <Dropdown.Item as={Link} onClick={closeOffCanvas} state={isadminrole} to="/trangthongtinuser">
+                                                    <Dropdown.Item as={Link} state={isadminrole} to="/trangthongtinuser">
                                                         Sửa thông tin cá nhân
                                                     </Dropdown.Item>
                                                     <Dropdown.Item onClick={
                                                         () => {
                                                             localStorage.removeItem('user');
                                                             window.location.reload();
+                                                            navigate('/');
                                                         }}>Logout</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>
@@ -126,7 +205,6 @@ function MyNavBar({ theme, onTogglePress }) {
                                         : <Nav.Item className="m-auto">
                                             <LoginButton />
                                         </Nav.Item>
-
                                 }
                             </Offcanvas.Body>
                         </Navbar.Offcanvas>
@@ -179,6 +257,57 @@ function MyNavBar({ theme, onTogglePress }) {
                                         </div>
                                     </div>
                                 </Nav>
+                                {
+                                    checkIfLoggedUser != null ?
+                                        <Nav.Item className="m-auto nav-image-margin">
+                                            <Dropdown>
+                                                <Dropdown.Toggle variant="outline" id="dropdown-basic">
+                                                    <NotificationsActiveIcon style={{ height: "40px", fontSize: "30px" }} ></NotificationsActiveIcon>
+                                                </Dropdown.Toggle>
+
+                                                <Dropdown.Menu bsPrefix='dropdown-menu drop-down-menu-center'>
+                                                    {
+                                                        getmessage ?
+                                                            getmessage.map((a, i = 0) => {
+                                                                i++;
+                                                                if (i < 10) {
+                                                                    if (a.Seen) {
+                                                                        return <Dropdown.Item key={i} as={Link} state={isadminrole} to='/trangthongtinuser'>{a.Noidung}</Dropdown.Item>
+                                                                    }
+                                                                    else {
+                                                                        return <Dropdown.Item key={i} onClick={() => UserReadMessage(a._id, isadminrole)}  ><span style={{ color: "red" }}>{a.Noidung}</span></Dropdown.Item>
+                                                                    }
+                                                                }
+                                                                else {
+                                                                    if (a.Seen) {
+                                                                        return <Dropdown.Item key={i} bsPrefix={showbtntext ? "dropdown-item" : "nav-dd-hide"} as={Link} state={isadminrole} to='/trangthongtinuser'>{a.Noidung}</Dropdown.Item>
+                                                                    }
+                                                                    else {
+                                                                        return <Dropdown.Item key={i} bsPrefix={showbtntext ? "dropdown-item" : "nav-dd-hide"} onClick={() => UserReadMessage(a._id, isadminrole)}  ><span style={{ color: "red" }}>{a.Noidung}</span></Dropdown.Item>
+                                                                    }
+
+                                                                }
+
+                                                            })
+                                                            : <Dropdown.Item>Khong co thong bao</Dropdown.Item>
+                                                    }
+                                                    {
+                                                        getmessage.length >= 10 ?
+                                                            <Button style={{ marginLeft: "180px" }} onClick={() => {
+                                                                if (showbtntext) {
+                                                                    setShowBtnText(false);
+                                                                }
+                                                                else {
+                                                                    setShowBtnText(true);
+                                                                }
+                                                            }}>{showbtntext ? "Show less" : "Show more"}</Button> :
+                                                            <div></div>
+                                                    }
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Nav.Item>
+                                        : <Nav.Item></Nav.Item>
+                                }
                                 <SearchBar />
                                 {
                                     checkIfLoggedUser != null ?
@@ -200,6 +329,7 @@ function MyNavBar({ theme, onTogglePress }) {
                                                         () => {
                                                             localStorage.removeItem('user');
                                                             window.location.reload();
+                                                            navigate('/');
                                                         }}>Logout</Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>

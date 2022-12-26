@@ -10,11 +10,14 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 function TrangThongTinUser() {
   const [thongbaomuonsach, setThongBaoMuonSach] = useState('');
 
   const location = useLocation();
+  console.log(location);
   const checkIfLoggedUser = localStorage.getItem('user');
   useEffect(() => {
     if (checkIfLoggedUser) {
@@ -64,35 +67,48 @@ function TrangThongTinUser() {
             {
               thongbaomuonsach ?
                 thongbaomuonsach.map((a, key) => {
-                  return <div key={key} style={{ margin: "10px", border: "1px solid black" }}>
-                    <p>Ngày mượn: {a.NgayMuon.split('T')[0]}</p>
-                    <p>Ngày trả: {a.NgayTra.split('T')[0]}</p>
-                    <BookData bookid={a.Sach} />
-                    <p style={{ marginBottom: "13px" }}></p>
-                    <UserData userid={a.User} />
-                    <p style={{ margin: "13px" }}></p>
-                    {
-                      a.TinhTrang ?
-                        a.TinhTrang === 1 ? "Đã trả sách" :
-                          a.TinhTrang === 2 ? "Chua tra" :
-                            "Đang xử lí" :
-                        "Error"
-                    }
-                    {
-                      a.TinhTrang === 3 ?
-                        <p>
-                          <CheckCircleIcon onClick={() => ConfirmBorrowBook(a._id, a.User)} ></CheckCircleIcon>
-                        </p>
-                        :
-                        <p></p>
-                    }
-                    {
-                      a.TinhTrang === 2 ?
-                        <p>
-                          <button style={{ backgroundColor: "yellowgreen", borderRadius: "3px", border: "none" }} onClick={() => GiveBackBook(a._id, a.User)}>Trả sách</button>
-                        </p> :
-                        <p></p>
-                    }
+                  return <div key={key} style={{ alignItems: "center", justifyContent: "space-between", display: "flex", margin: "10px", border: "1px solid black" }}>
+                    <div style={{ marginLeft: "5%" }}>
+                      <p>Ngày mượn: {a.NgayMuon.split('T')[0]}</p>
+                      <p>Ngày trả: {a.NgayTra.split('T')[0]}</p>
+                      <BookData bookid={a.Sach} />
+                      <p style={{ marginBottom: "13px" }}></p>
+                      <UserData userid={a.User} />
+                      <p style={{ margin: "13px" }}></p>
+                      {
+                        a.TinhTrang ?
+                          a.TinhTrang === 1 ? <span style={{fontWeight:"bold"}}>Đã trả sách</span> :
+                            a.TinhTrang === 2 ? "Chua tra" :
+                              "Đang xử lí" :
+                          "Error"
+                      }
+                      {
+                        a.TinhTrang === 3 ?
+                          <p>
+                            <CheckCircleIcon onClick={() => ConfirmBorrowBook(a._id, a.User)} ></CheckCircleIcon>
+                          </p>
+                          :
+                          <p></p>
+                      }
+                      {
+                        a.TinhTrang === 2 ?
+                          <p>
+                            <button style={{ backgroundColor: "yellowgreen", borderRadius: "3px", border: "none" }} onClick={() => GiveBackBook(a._id, a.User)}>Trả sách</button>
+                          </p> :
+                          <p></p>
+                      }
+                    </div>
+                    <div>
+                      {
+                        a.TinhTrang === 1 ?
+                          <CheckCircleIcon style={{ fontSize: "10vw", color: "green", marginLeft: "5%" }}></CheckCircleIcon>
+                          : a.TinhTrang === 2 ?
+                            <RemoveCircleIcon style={{ fontSize: "10vw" }}></RemoveCircleIcon>
+                            : a.TinhTrang === 3 ?
+                              <MoreHorizIcon style={{ fontSize: "10vw", color: "orange" }}></MoreHorizIcon>
+                              : <p></p>
+                      }
+                    </div>
                   </div>
                 })
                 : <div> Error</div>

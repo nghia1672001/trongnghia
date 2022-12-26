@@ -153,14 +153,5 @@ router.get("/getxuliuser/:userid", async (req, res) => {
         .catch(err => res.status(400).json(`Error: ${err}`))
 })
 
-/*Hien thi message*/
-router.get("/getmessage/:userid", async (req, res) => {
-    User.findById(req.params.userid)
-        .then(user => {
-            res.json(user.Message);
-        })
-
-        .catch(err => res.status(400).json(`Error: ${err}`))
-})
 
 module.exports = router;

@@ -24,7 +24,7 @@ function App() {
   }, [])
   return (
     <div data-theme={theme} style={{ backgroundColor: "var(--body-background-color)", color:"var(--body-text-color)"}} className="App">
-      <MyNavBar theme={theme} onTogglePress={setTheme} />
+      <MyNavBar setBooks={setBooks} theme={theme} onTogglePress={setTheme} />
       <MyRoutes toRoute={books} />
     </div>
   );

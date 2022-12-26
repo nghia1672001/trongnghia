@@ -78,6 +78,20 @@
     margin: 10px;
 }
 
+.nav-dd-hide{
+    display: none;
+}
+
+.drop-down-menu-center{
+    width: 435%;
+    transform: translate(-38%, 0);
+    white-space: nowrap;
+    overflow: hidden;
+}
+.nav-dd-menu{
+    left: 100;
+    background-color: red;
+}
 @media screen and (max-width: 991px) {
     .nav-links {
         display: flex;
