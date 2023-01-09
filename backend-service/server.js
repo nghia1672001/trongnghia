@@ -8,6 +8,8 @@ const books = require("./router/book")
 const increase = require("./router/increaseview")
 const comment = require("./router/addcomment");
 const borrowbook = require("./router/borrowbook");
+const category = require("./router/gettheloai");
+const booktable = require("./router/datban");
 /* Them thu vien */
 const express = require('express')
 const mongoose = require('mongoose');
@@ -44,6 +46,8 @@ app.use("/books", books);
 app.use("/luotxem", increase);
 app.use("/comment", comment);
 app.use("/borrow" ,borrowbook);
+app.use("/categories", category);
+app.use("/booktable", booktable);
 /* port cua web service */
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

@@ -31,7 +31,6 @@ function TrangMuonSach() {
         temp2 = temp2.toString().split(' ')[1] + temp2.toString().split(' ')[2] + temp2.toString().split(' ')[3];
 
 
-        console.log(temp2);
         console.log(temp >= temp1 && temp2 > temp1 && temp2 > temp)
         if ((temp >= temp1) && (temp2 > temp1) && (temp2 > temp)) {
             return true;
@@ -46,7 +45,6 @@ function TrangMuonSach() {
 
         var temp2 = b;
 
-        console.log(Math.ceil((temp2 - temp) / (1000 * 60 * 60 * 24)));
         if ((Math.ceil((temp2 - temp) / (1000 * 60 * 60 * 24)) >= 1) && (Math.ceil((temp2 - temp) / (1000 * 60 * 60 * 24)) <= 14)) {
             return true;
         }

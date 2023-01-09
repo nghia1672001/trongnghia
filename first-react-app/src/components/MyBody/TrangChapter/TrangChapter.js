@@ -24,6 +24,7 @@ import ButtonComment from '../../Buttons/ButtonComment/ButtonComment';
 
 import CommentBlock from '../../functionality/CommentBlock/CommentBlock';
 import axios from 'axios';
+import InsertCategory from '../../Buttons/ButtonCategory.js/InsertCategory';
 
 function TrangChapter() {
     const [loadingstate, setLoadingState] = useState("Loading data.... Please reload if it takes too long to response");
@@ -92,14 +93,28 @@ function TrangChapter() {
                                             }) : <span>Đang tiến hành</span>}</div>
                                         <InsertAuthor bookid={location.state._id} />
                                     </div>
+                                    <InsertCategory bookid={location.state._id}></InsertCategory>
                                     <div style={{ display: "inline" }}>
-                                        <p style={{ marginTop: "14px" }}>
+                                        <div style={{ marginTop: "14px" }}>
                                             <LocalOfferIcon style={{ height: "22px", marginRight: "10px" }}></LocalOfferIcon>
-                                            Thể loại:
-                                        </p>
+                                            Thể loại: {location.state.TheLoai.length > 0 ? location.state.TheLoai.map((theloai, keycategory) => {
+                                                if (keycategory === location.state.TheLoai.length - 1) {
+                                                    return <div style={{ display: "inline" }} key={keycategory}>
+                                                        {theloai.TenTheLoai}
+                                                    </div>
+                                                }
+                                                else {
+                                                    return <div style={{ display: "inline", marginRight: "3px" }} key={keycategory}>
+                                                        {theloai.TenTheLoai}
+                                                        ,
+                                                    </div>
+                                                }
+                                            }) :
+                                                <span>Đang tiến hành</span>}
+                                        </div>
                                     </div>
                                     <div>
-                                        <p>
+                                        <p style={{marginTop:"14px"}}>
                                             <VisibilityIcon style={{ marginRight: "10px" }}></VisibilityIcon>
                                             Lượt xem: {location.state.LuotXem}
                                         </p>

@@ -15,7 +15,7 @@ const userSchema = new Schema({
     Role: { type: String },
     Image: { type: String },
     Message: [],
-    ThuePhong: [],
+    DatBan: [],
     BinhLuan: [],
 })
 

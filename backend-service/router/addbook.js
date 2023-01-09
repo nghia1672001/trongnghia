@@ -16,8 +16,8 @@ router.put("/singlebook/:id", async (req, res) => {
 router.put("/singlechapter/:id/:_id", async (req, res) => {
     await Sach.findOne({ "_id": mongoose.Types.ObjectId(req.params.id), "Chapter._id": mongoose.Types.ObjectId(req.params._id) })
         .then(sach => {
-            sach.Chapter.filter(chapter =>{
-                if(chapter._id.equals(mongoose.Types.ObjectId(req.params._id))){
+            sach.Chapter.filter(chapter => {
+                if (chapter._id.equals(mongoose.Types.ObjectId(req.params._id))) {
                     return true;
                 }
                 else return false;
@@ -138,6 +138,23 @@ router.put("/updatechapter/:id/:_id", (req, res) => {
         .catch(err => res.status(400).json(`Err: ${err}`))
 });
 
+//Thêm tác giả
+router.post("/addauthor/:id", (req, res) => {
+    const newTacGia = new TacGia({
+        TenTacGia: req.body.TenTacGia,
+        Mota: req.body.Mota
+    })
+
+    Sach.findById(req.params.id)
+        .then(sach => {
+            sach.TacGia.push(newTacGia);
+            sach.save()
+                .then(() => res.json("Authorize Posted Success!!!"))
+                .catch(err => res.status(400).json(`Error: ${err}`))
+        })
+        .catch(err => res.status(400).json(`Error: ${err}`))
+})
+
 //Xóa tác giả
 router.put("/deleteauthor/:id/:_id", (req, res) => {
     Sach.findOneAndUpdate(
@@ -168,6 +185,41 @@ router.put("/updateauthor/:id/:_id", (req, res) => {
         .then(() => res.json("Chapter Updated Succesfully"))
         .catch(err => res.status(400).json(`Err: ${err}`))
 });
+
+//Thêm thể loại
+router.post("/addcategory/:id/:cid", async (req, res) => {
+    var newcategory = TheLoai();
+
+    await TheLoai.findById(req.params.cid)
+        .then(theloai => {
+            newcategory = theloai;
+        })
+        .catch(error => res.status(400).json(`Error: ${error}`))
+
+    Sach.findById(req.params.id)
+        .then(sach => {
+            if (sach.TheLoai) {
+                for(var i=0; i<sach.TheLoai.length; i++){
+                    if(sach.TheLoai[i]._id.equals(mongoose.Types.ObjectId(req.params.cid))){
+                        res.send({Message: "thể loại đã tồn tại"})
+                        return;
+                    }
+                    else continue;
+                }
+                sach.TheLoai.push(newcategory);
+                sach.save()
+                    .then(() => res.json("Authorize Posted Success!!!"))
+                    .catch(err => res.status(400).json(`Error: ${err}`))
+            }
+            else {
+                sach.TheLoai.push(newcategory);
+                sach.save()
+                    .then(() => res.json("Authorize Posted Success!!!"))
+                    .catch(err => res.status(400).json(`Error: ${err}`))
+            }
+        })
+        .catch(err => res.status(400).json(`Error: ${err}`))
+})
 
 //Xóa thể loại
 router.put("/deletecategory/:id/:_id", (req, res) => {
@@ -212,30 +264,6 @@ router.post("/addauthor/:id", (req, res) => {
             sach.TacGia.push(newTacGia);
             sach.save()
                 .then(() => res.json("Authorize Posted Success!!!"))
-                .catch(err => res.status(400).json(`Error: ${err}`))
-        })
-        .catch(err => res.status(400).json(`Error: ${err}`))
-})
-
-//Thêm thể loại
-router.post("/addcategory/:id/:cid", async (req, res) => {
-    const newcategory = new TheLoai({
-        TenTheLoai: "",
-        MoTa: ""
-    });
-
-    await TheLoai.findById(req.params.cid)
-        .then(theloai => {
-            newcategory.TenTheLoai = theloai.TenTheLoai;
-            newcategory.MoTa = theloai.MoTa;
-        })
-        .catch(error => res.status(400).json(`Error: ${error}`))
-
-    Sach.findById(req.params.id)
-        .then(sach => {
-            sach.TheLoai.push(newcategory);
-            sach.save()
-                .then(() => res.json("Category Posted Success!!!"))
                 .catch(err => res.status(400).json(`Error: ${err}`))
         })
         .catch(err => res.status(400).json(`Error: ${err}`))

@@ -99,7 +99,7 @@ function MyNavBar({ theme, onTogglePress, setBooks }) {
                                 <Nav className="m-auto">
                                     <div className='nav-links'>
                                         <div className="nav-links-items">
-                                            <Link to="/trang1" className='nav-mau-chu'>Trang Mot</Link>
+                                            <Link to="/trangDatBan" className='nav-mau-chu'>Đặt bàn</Link>
                                         </div>
                                         <div className="nav-links-items">
                                             <div
@@ -231,7 +231,7 @@ function MyNavBar({ theme, onTogglePress, setBooks }) {
                                 <Nav className="m-auto">
                                     <div className='nav-links'>
                                         <div className="nav-links-items">
-                                            <Link to="/trang1" className='nav-mau-chu'>Thêm Sách</Link>
+                                            <Link to="/trangdatban" className='nav-mau-chu'>Đặt bàn</Link>
                                         </div>
                                         <div className="nav-links-items">
                                             <div
