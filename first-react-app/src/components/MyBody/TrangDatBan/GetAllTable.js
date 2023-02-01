@@ -2,8 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import BookUserData from './UserBookData';
 
 function GetAllTable() {

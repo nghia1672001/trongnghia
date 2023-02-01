@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import { Col, Container, Row } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 
 import './TrangMuonSach.css';
 
@@ -100,8 +101,10 @@ function TrangMuonSach() {
                     </div>
                 </Col>
             </Row>
-            <Row>
-                <button onClick={BorrowBook}>Muon sach</button>
+            <Row className='justify-content-center'>
+                <Button style={{ margin: "auto", width: "105px", justifyContent: "center", alignItems: "center", textAlign: "center"}} onClick={BorrowBook} variant="primary" type="submit">
+                    Xác nhận
+                </Button>
             </Row>
         </Container>
     )

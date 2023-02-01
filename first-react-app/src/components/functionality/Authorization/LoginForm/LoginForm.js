@@ -3,6 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './LoginForm.css';
+
 function LoginForm() {
 
     const [TaiKhoan, setTaiKhoan] = useState('');
@@ -45,7 +47,7 @@ function LoginForm() {
         }
     }
     return (
-        <Form style={{ border: "1px solid black", borderRadius: "10px", padding: "10px", margin: "5% 30%" }} onSubmit={HandleUpLoad} encType='multipart/form-data'>
+        <Form className='form-login' onSubmit={HandleUpLoad} encType='multipart/form-data'>
             <h1 style={{ textAlign: "center" }}>Đăng nhập</h1>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Tài khoản</Form.Label>

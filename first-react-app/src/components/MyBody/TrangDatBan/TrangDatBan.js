@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import { Container, Row } from 'react-bootstrap';
 import GetAllTable from './GetAllTable';
+import './TrangDatBan.css';
 
 function TrangDatBan() {
   const [ngaymuon, setNgayMuon] = useState(new Date());
@@ -93,10 +94,10 @@ function TrangDatBan() {
               </div>
             </Row>
             <Row>
-              <input onChange={e => setSoBan(e.target.value)} style={{ margin: "5px 0px", padding: "5px", width: "100%" }} type="text" placeholder="Nhập số bàn"></input>
+              <input onChange={e => setSoBan(e.target.value)} style={{ marginLeft: "500px", padding: "5px", width: "12vw", height: "5vh" }} type="text" placeholder="Nhập số bàn"></input>
             </Row>
-            <Row>
-              <button onClick={BookTable}>Đặt bàn</button>
+            <Row className='justify-content-center' >
+              <button style={{ marginLeft:"12px" , marginTop: "30px", width: "12vw", justifyContent: "center", alignItems: "center", textAlign: "center" }} onClick={BookTable}>Đặt bàn</button>
             </Row>
           </Container>
       }
